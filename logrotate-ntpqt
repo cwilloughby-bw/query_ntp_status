@@ -1,0 +1,10 @@
+/var/log/ntpqt/*.log {
+    weekly
+    missingok
+    notifempty
+    sharedscripts
+    rotate 2
+    compress
+    delaycompress
+    endscript
+}

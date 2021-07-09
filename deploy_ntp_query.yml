@@ -1,0 +1,33 @@
+- name: Deploy NTP Query Tool
+  hosts: all
+  tasks:
+    - name: Create tool directory
+      ansible.builtin.file:
+        path: /opt/ntp_query_tool
+        state: 'directory'
+        mode: '0755'
+
+    - name: Create tool log directory
+      ansible.builtin.file:
+        path: /var/log/ntpqt
+        state: 'directory'
+        mode: '0755'
+
+    - name: Download latest release
+      ansible.builtin.git:
+        repo: https://github.com/cwilloughby-bw/query_ntp_status.git
+        dest: /opt/ntp_query_tool
+
+    - name: Drop in logrotate config
+      ansible.builtin.copy:
+        src: logrotate-ntpqt
+        dest: /etc/logrotate.d/ntpqt
+        owner: root
+        group: root
+        mode: '0755'
+
+    - name: Configure cron task
+      ansible.builtin.cron:
+        name: "Run ntpqt"
+        job: "/usr/bin/python3 /opt/ntp_query_tool/query_ntp_status.py >> /var/log/ntpqt/ntpqt.log 2>&1"
+
