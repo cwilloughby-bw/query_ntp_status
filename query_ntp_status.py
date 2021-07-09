@@ -51,7 +51,7 @@ data = dict()
 for match in r:
     serverdata = {
         "status":match[0],
-        "remote":match[0],
+        "remote":match[1],
         "refid":match[2],
         "st":match[3],
         "t":match[4],
