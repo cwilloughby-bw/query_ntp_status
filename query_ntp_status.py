@@ -51,6 +51,7 @@ data = dict()
 for match in r:
     serverdata = {
         "status":match[0],
+        "remote":match[0],
         "refid":match[2],
         "st":match[3],
         "t":match[4],
@@ -61,9 +62,10 @@ for match in r:
         "offset":match[9],
         "jitter":match[10]
         }
-    data[match[1].replace(".","_")] = serverdata
+    print(json.dumps({"ntpq_data":serverdata}))
+    # data[match[1].replace(".","_")] = serverdata
 
 # Output Result
-result = {'ntp_query_result': 'ok' if r else 'failed', 'ntpq_data': data}
+# result = {'ntp_query_result': 'ok' if r else 'failed', 'ntpq_data': data}
 
-print(json.dumps(result))
+# print(json.dumps(result))
