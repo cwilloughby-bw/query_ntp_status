@@ -64,6 +64,6 @@ for match in r:
     data[match[1]] = serverdata
 
 # Output Result
-result = {'query_result': 'ok' if r else 'failed', 'data': data}
+result = {'ntp_query_result': 'ok' if r else 'failed', 'ntpq_data': data}
 
 print(json.dumps(result))
