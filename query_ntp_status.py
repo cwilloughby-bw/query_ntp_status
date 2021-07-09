@@ -39,46 +39,29 @@ if start == -1:
         sys.exit(1)
 
 # Get the data part of the string
-#pay_dirt = stdout_value[start+4:]
-pay_dirt = stdout_value[start:]
+pay_dirt = stdout_value[start+4:]
 
-# search for NTP line starting with * (primary server)
-exp = ("\*((?P<remote>\S+)\s+)"
-       "((?P<refid>\S+)\s+)"
-       "((?P<st>\S+)\s+)"
-       "((?P<t>\S+)\s+)"
-       "((?P<when>\S+)\s+)"
-       "((?P<poll>\S+)\s+)"
-       "((?P<reach>\S+)\s+)"
-       "((?P<delay>\S+)\s+)"
-       "((?P<offset>\S+)\s+)"
-       "((?P<jitter>\S+)\s+)")
+expression = "(?P<status>.)(?P<remote>\S+)\s+(?P<refid>\S+)\s+(?P<st>\S+)\s+(?P<t>\S+)\s+(?P<when>\S+)\s+(?P<poll>\S+)\s+(?P<reach>\S+)\s+(?P<delay>\S+)\s+(?P<offset>\S+)\s+(?P<jitter>\S+)\s+"
 
-regex = re.compile(exp, re.MULTILINE)
-r = regex.search(pay_dirt)
+pattern = re.compile(expression, re.MULTILINE)
+r = pattern.findall(pay_dirt)
 
-# Did we get anything?
-if not r:
-    # No, try again without the * at the beginning, get
-    # the first entry instead
-    exp = (" ((?P<remote>\S+)\s+)"
-           "((?P<refid>\S+)\s+)"
-           "((?P<st>\S+)\s+)"
-           "((?P<t>\S+)\s+)"
-           "((?P<when>\S+)\s+)"
-           "((?P<poll>\S+)\s+)"
-           "((?P<reach>\S+)\s+)"
-           "((?P<delay>\S+)\s+)"
-           "((?P<offset>\S+)\s+)"
-           "((?P<jitter>\S+)\s+)")
+data = dict()
 
-    regex = re.compile(exp, re.MULTILINE)
-    r = regex.search(pay_dirt)
-
-data = {}
-
-if r:
-    data = r.groupdict()
+for match in r:
+    serverdata = {
+        "status":match[0],
+        "refid":match[2],
+        "st":match[3],
+        "t":match[4],
+        "when":match[5],
+        "poll":match[6],
+        "reach":match[7],
+        "delay":match[8],
+        "offset":match[9],
+        "jitter":match[10]
+        }
+    data[match[1]] = serverdata
 
 # Output Result
 result = {'query_result': 'ok' if r else 'failed', 'data': data}
