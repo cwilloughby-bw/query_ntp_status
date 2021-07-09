@@ -20,7 +20,7 @@ import re
 import sys
 
 # Shell out to 'ntpq -p'
-proc = subprocess.Popen(['ntpq', '-p'], stdout=subprocess.PIPE)
+proc = subprocess.Popen(['/usr/sbin/ntpq', '-p'], stdout=subprocess.PIPE)
 
 # Get the output
 stdout_value = proc.communicate()[0].decode("utf-8")
