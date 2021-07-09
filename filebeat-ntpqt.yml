@@ -1,0 +1,5 @@
+- input_type: log
+  paths:
+    - /var/log/ntpqt/ntpqt.log
+  exclude_files: [".gz$"]
+  json.keys_under_root: true
