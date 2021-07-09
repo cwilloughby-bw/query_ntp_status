@@ -26,6 +26,14 @@
         group: root
         mode: '0755'
 
+    - name: Drop in filebeat config
+      ansible.builtin.copy:
+        src: filebeat-ntpqt.yml
+        dest: /etc/filebeat/conf.d/ntpqt.yml
+        owner: root
+        group: root
+        mode: 0644
+
     - name: Configure cron task
       ansible.builtin.cron:
         name: "Run ntpqt"
