@@ -61,7 +61,7 @@ for match in r:
         "offset":match[9],
         "jitter":match[10]
         }
-    data[match[1]] = serverdata
+    data[match[1].replace(".","_")] = serverdata
 
 # Output Result
 result = {'ntp_query_result': 'ok' if r else 'failed', 'ntpq_data': data}
