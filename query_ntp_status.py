@@ -55,7 +55,7 @@ for match in r:
         "refid":match[2],
         "st":int(match[3]),
         "t":match[4],
-        "when":int(match[5]),
+        "when":match[5],
         "poll":int(match[6]),
         "reach":int(match[7]),
         "delay":float(match[8]),
