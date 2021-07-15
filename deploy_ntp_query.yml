@@ -16,7 +16,7 @@
     - name: Drop in ntp query script
       ansible.builtin.copy:
         src: query_ntp_status.py
-        dest: /opt/ntp_query_tool
+        dest: /opt/ntp_query_tool/query_ntp_status.py
         owner: root
         group: root
         mode: '0755'
