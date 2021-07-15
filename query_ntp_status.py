@@ -53,17 +53,16 @@ for match in r:
         "status":match[0],
         "remote":match[1],
         "refid":match[2],
-        "st":match[3],
+        "st":int(match[3]),
         "t":match[4],
-        "when":match[5],
-        "poll":match[6],
-        "reach":match[7],
-        "delay":match[8],
-        "offset":match[9],
-        "jitter":match[10]
+        "when":int(match[5]),
+        "poll":int(match[6]),
+        "reach":int(match[7]),
+        "delay":float(match[8]),
+        "offset":float(match[9]),
+        "jitter":float(match[10])
         }
     print(json.dumps({"ntpq_data":serverdata}))
-    # data[match[1].replace(".","_")] = serverdata
 
 # Output Result
 # result = {'ntp_query_result': 'ok' if r else 'failed', 'ntpq_data': data}
