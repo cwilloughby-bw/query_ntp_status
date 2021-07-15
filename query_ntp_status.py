@@ -62,7 +62,7 @@ for match in r:
         "offset":float(match[9]),
         "jitter":float(match[10])
         }
-    print(json.dumps({"ntpq_data":serverdata}))
+    print(json.dumps({"ntpqt_data":serverdata}))
 
 # Output Result
 # result = {'ntp_query_result': 'ok' if r else 'failed', 'ntpq_data': data}
