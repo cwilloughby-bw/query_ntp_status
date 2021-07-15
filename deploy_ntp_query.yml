@@ -13,10 +13,13 @@
         state: 'directory'
         mode: '0755'
 
-    - name: Download latest release
-      ansible.builtin.git:
-        repo: https://github.com/cwilloughby-bw/query_ntp_status.git
+    - name: Drop in ntp query script
+      ansible.builtin.copy:
+        src: query_ntp_status.py
         dest: /opt/ntp_query_tool
+        owner: root
+        group: root
+        mode: '0755'
 
     - name: Drop in logrotate config
       ansible.builtin.copy:
