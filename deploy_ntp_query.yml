@@ -40,5 +40,5 @@
     - name: Configure cron task
       ansible.builtin.cron:
         name: "Run ntpqt"
-        job: "/usr/bin/python3 /opt/ntp_query_tool/query_ntp_status.py >> /var/log/ntpqt/ntpqt.log 2>&1"
+        job: "/usr/bin/python /opt/ntp_query_tool/query_ntp_status.py >> /var/log/ntpqt/ntpqt.log 2>&1"
 
