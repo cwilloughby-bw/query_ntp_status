@@ -1,61 +1,6 @@
 #!/usr/bin/python
 
-#   Copyright 2018 Kevin Godden
-#
-#   Licensed under the Apache License, Version 2.0 (the "License");
-#   you may not use this file except in compliance with the License.
-#   You may obtain a copy of the License at
-#
-#       http://www.apache.org/licenses/LICENSE-2.0
-#
-#   Unless required by applicable law or agreed to in writing, software
-#   distributed under the License is distributed on an "AS IS" BASIS,
-#   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-#   See the License for the specific language governing permissions and
-#   limitations under the License.
-
-import subprocess
-import json
-import re
-import sys
-
-def getProcessId(name):
-    proc = subprocess.Popen(['pidof', name], stdout=subprocess.PIPE)
-    stdout_value = proc.communicate()[0].decode("utf-8")
-    return stdout_value
-
-pidOfNtpd = getProcessId("ntpd")
-pidOfChronyd = getProcessId("chronyd")
-
-# Shell out to 'ntpq -p'
-proc = subprocess.Popen(['/usr/sbin/ntpq', '-p'], stdout=subprocess.PIPE)
-
-# Get the output
-stdout_value = proc.communicate()[0].decode("utf-8")
-
-#remove the header lines
-start = stdout_value.find("===\n")
-
-if start == -1:
-    # We may be running on windows (\r\n), try \r...
-    start = stdout_value.find("===\r")
-
-    if start == -1:
-        # No, go, exit with error
-        result = {'query_result': 'failed', 'data': {}}
-        print(json.dumps(result))
-        sys.exit(1)
-
-# Get the data part of the string
-pay_dirt = stdout_value[start+4:]
-
-expression = "(?P<status>.)(?P<remote>\S+)\s+(?P<refid>\S+)\s+(?P<st>\S+)\s+(?P<t>\S+)\s+(?P<when>\S+)\s+(?P<poll>\S+)\s+(?P<reach>\S+)\s+(?P<delay>\S+)\s+(?P<offset>\S+)\s+(?P<jitter>\S+)\s+"
-
-pattern = re.compile(expression, re.MULTILINE)
-r = pattern.findall(pay_dirt)
-#!/usr/bin/python
-
-#   Copyright 2018 Kevin Godden
+#   Copyright 2021 Chandler Willoughby
 #
 #   Licensed under the Apache License, Version 2.0 (the "License");
 #   you may not use this file except in compliance with the License.
@@ -163,6 +108,7 @@ def getChronydStats():
             print(json.dumps({"ntpqt_data":trackingData}))
     getChronydSources()
     getChronydTracking()
+
 pidOfNtpd = getProcessId("ntpd")
 pidOfChronyd = getProcessId("chronyd")
 
@@ -175,26 +121,3 @@ elif pidOfChronyd:
     getChronydStats()
 else:
     print("This host doesn't seem to be running any time syncronization daemon, this could be problematic.")
-
-data = dict()
-
-for match in r:
-    serverdata = {
-        "status":match[0],
-        "remote":match[1],
-        "refid":match[2],
-        "st":int(match[3]),
-        "t":match[4],
-        "when":match[5],
-        "poll":int(match[6]),
-        "reach":int(match[7]),
-        "delay":float(match[8]),
-        "offset":float(match[9]),
-        "jitter":float(match[10])
-        }
-    print(json.dumps({"ntpqt_data":serverdata}))
-
-# Output Result
-# result = {'ntp_query_result': 'ok' if r else 'failed', 'ntpq_data': data}
-
-# print(json.dumps(result))
