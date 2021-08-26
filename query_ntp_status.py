@@ -117,7 +117,6 @@ if pidOfChronyd and pidOfNtpd:
 elif pidOfNtpd:
     getNtpdStats()
 elif pidOfChronyd:
-    print("This host is running Chronyd! Gathering stats from the Chrony daemon.")
     getChronydStats()
 else:
     print("This host doesn't seem to be running any time syncronization daemon, this could be problematic.")
