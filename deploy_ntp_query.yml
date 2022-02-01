@@ -27,7 +27,7 @@
         dest: /etc/logrotate.d/ntpqt
         owner: root
         group: root
-        mode: '0755'
+        mode: 0644
 
     - name: Drop in filebeat config
       ansible.builtin.copy:
