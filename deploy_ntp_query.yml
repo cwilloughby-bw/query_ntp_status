@@ -40,5 +40,4 @@
     - name: Configure cron task
       ansible.builtin.cron:
         name: "Run ntpqt"
-        job: "{{ ansible_python.executable }} /opt/ntp_query_tool/query_ntp_status.py >> /var/log/ntpqt/ntpqt.log 2>&1"
-
+        job: "export PATH=$PATH:/usr/bin:/usr/sbin/; {{ ansible_python.executable }} /opt/ntp_query_tool/query_ntp_status.py >> /var/log/ntpqt/ntpqt.log 2>&1"
